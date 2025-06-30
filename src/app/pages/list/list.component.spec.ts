@@ -17,10 +17,14 @@ describe('ListComponent', () => {
   });
 
   it('deve listar as tarefas', () => {
-    const ulEl = fixture.debugElement.query(By.css('ul'));
-    expect(ulEl).toBeTruthy();
+    const todoSection = fixture.debugElement.query(By.css('[data-testid="todo-list"]'));
+    expect(todoSection).toBeTruthy();
+    const todoItems = todoSection.queryAll(By.css('[data-testid="todo-list-item"]'));
+    expect(todoItems.length).toBe(3)
 
-    const liEls = ulEl.queryAll(By.css('li'));
-    expect(liEls).toBe(3)
+    const completedSection = fixture.debugElement.query(By.css('[data-testid="completed-list"]'));
+    expect(completedSection).toBeTruthy();
+    const completedItems = completedSection.queryAll(By.css('[data-testid="completed-list-item"]'));
+    expect(completedItems.length).toBe(3)
   });
 });
