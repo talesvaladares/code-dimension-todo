@@ -1,27 +1,34 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
-import { RouterModule } from '@angular/router';
+import { By } from "@angular/platform-browser";
+import { HeaderComponent } from "./shared/components/header/header.component";
+import { FakeHeaderComponent } from '@testing/mocks/fake-header.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NxWelcomeComponent, RouterModule.forRoot([])],
+      imports: [AppComponent]
     }).compileComponents();
+
+    TestBed.overrideComponent(AppComponent, {
+      remove: {
+        imports: [HeaderComponent]
+      },
+      add: {
+        imports: [FakeHeaderComponent]
+      }
+    })
   });
 
-  it('should render title', () => {
+  it('deve renderizar o componente header', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain(
-      'Welcome code-dimension-todo'
-    );
+    const headerDebufEl = fixture.debugElement.query(By.css('app-header'));
+    expect(headerDebufEl).toBeTruthy();
   });
 
-  it(`should have as title 'code-dimension-todo'`, () => {
+  it('deve renderizar o componente router-outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('code-dimension-todo');
+    const routerOutletDebufEl = fixture.debugElement.query(By.css('router-outlet'));
+    expect(routerOutletDebufEl).toBeTruthy();
   });
-});
+})
