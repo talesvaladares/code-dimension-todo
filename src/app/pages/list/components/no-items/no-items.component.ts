@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common';
   selector: 'app-no-items',
   imports: [CommonModule],
   templateUrl: './no-items.component.html',
-  styleUrl: './no-items.component.css',
+  styleUrl: './no-items.component.scss',
 })
 export class NoItemsComponent {}
