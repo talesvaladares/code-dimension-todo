@@ -10,7 +10,7 @@ export class TasksService {
   private readonly httpCliente = inject(HttpClient);
 
   public getAll(): Observable<Task[]> {
-    return this.httpCliente.get<Task[]>('/tasks');
+    return this.httpCliente.get<Task[]>('/api/tasks');
   }
 
 }
