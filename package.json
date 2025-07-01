@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nx serve",
+    "start:app": "nx serve",
+    "start:json-server": "json-server json-server/db.json",
+    "dev": "run-p start:*",
     "build": "nx build",
     "test": "nx test",
     "test:watch": "nx test --watch=true"
