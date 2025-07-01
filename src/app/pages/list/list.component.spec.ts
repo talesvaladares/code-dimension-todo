@@ -2,11 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListComponent } from './list.component';
 import { By } from '@angular/platform-browser';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
+import { FakeTasksService } from '@testing/mocks/fake-tasks.service';
 import { of } from 'rxjs';
-
-class FakeTasksService implements TasksService {
-  public getAll = jest.fn();
-}
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;

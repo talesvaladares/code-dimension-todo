@@ -7,8 +7,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class TasksService {
-
-  private httpCliente = inject(HttpClient);
+  private readonly httpCliente = inject(HttpClient);
 
   public getAll(): Observable<Task[]> {
     return this.httpCliente.get<Task[]>('/tasks');
