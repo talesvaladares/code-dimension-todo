@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListItemComponent } from './list-item.component';
+import { By } from '@angular/platform-browser';
+import { Task } from '../../types/task';
+import { TestHelper } from '@testing/helpers/test-helper'
 
 describe('ListItemComponent', () => {
-  let component: ListItemComponent;
   let fixture: ComponentFixture<ListItemComponent>;
+  let testHelper: TestHelper<ListItemComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -11,11 +14,20 @@ describe('ListItemComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    testHelper = new TestHelper(fixture)
   });
+  
+  it('deve renderizar o título da tarefa', () => {
+    const fakeTask: Task = {
+      title: 'Nome da tarefa',
+      completed: false
+    }
+    
+    fixture.componentRef.setInput('task', fakeTask);
+    fixture.detectChanges();
+    
+    const text = testHelper.getTextContentByTestId('list-item-task-title');
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(text).toBe(fakeTask.title);
   });
 });

@@ -8,7 +8,7 @@
     "dev": "run-p start:*",
     "build": "nx build",
     "test": "nx test",
-    "test:watch": "nx test --watch=true"
+    "test:watch": "jest --watchAll --runInBand --verbose"
   },
   "private": true,
   "dependencies": {
