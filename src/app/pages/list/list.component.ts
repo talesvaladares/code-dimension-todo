@@ -3,11 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/shared/types/task';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { NoItemsComponent } from './components/no-items/no-items.component';
+import { ListItemComponent } from 'src/app/shared/components/list-item/list-item.component';
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, NoItemsComponent],
+  imports: [
+    CommonModule, 
+    NoItemsComponent, 
+    ListItemComponent
+  ],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss',
 })
