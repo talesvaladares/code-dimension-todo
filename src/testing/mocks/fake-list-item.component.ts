@@ -1,4 +1,4 @@
-import { Component, input } from "@angular/core";
+import { Component, input, output } from "@angular/core";
 import { Task } from "src/app/shared/types/task";
 
 @Component({
@@ -8,4 +8,11 @@ import { Task } from "src/app/shared/types/task";
 })
 export class FakeListItemComponent {
   public task = input.required<Task>();
+
+  public complete = output<Task>();
+  
+  protected onComplete() {
+    this.complete.emit(this.task());
+  }
+
 };
