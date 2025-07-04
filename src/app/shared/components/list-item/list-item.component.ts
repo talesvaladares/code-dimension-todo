@@ -9,5 +9,5 @@ import { Task } from '../../types/task';
   styleUrl: './list-item.component.css',
 })
 export class ListItemComponent {
-  task = input.required<Task>()
+  public task = input.required<Task>();
 }
