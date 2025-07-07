@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ListItemComponent } from './list-item.component';
-import { Task } from '../../types/task';
+import { Task } from 'src/app/shared/types/task';
 import { TestHelper } from '@testing/helpers/test-helper'
 import { Component } from '@angular/core';
 

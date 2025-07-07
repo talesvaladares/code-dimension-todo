@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Task } from 'src/app/shared/types/task';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { NoItemsComponent } from './components/no-items/no-items.component';
-import { ListItemComponent } from 'src/app/shared/components/list-item/list-item.component';
+import { ListItemComponent } from './components/list-item/list-item.component';
 
 @Component({
   selector: 'app-list',
@@ -26,5 +26,13 @@ export class ListComponent implements OnInit {
 
   public ngOnInit(): void {
     this.taskService.getAll().subscribe(tasks => this.tasks.set(tasks));
+  }
+
+  protected onCompleted(task: Task) {
+    this.taskService.patch(task.id, {completed: true}).subscribe(task => this.updateTask(task))
+  }
+
+  private updateTask(task: Task) {
+    this.tasks.update(tasks => tasks.map(t => t.id === task.id ? task : t));
   }
 }

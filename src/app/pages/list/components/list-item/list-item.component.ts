@@ -1,6 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Task } from '../../types/task';
+import { Task } from '../../../../shared/types/task';
 
 @Component({
   selector: 'app-list-item',

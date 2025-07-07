@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { TasksService } from 'src/app/shared/services/tasks/tasks.service';
 import { FakeTasksService } from '@testing/mocks/fake-tasks.service';
 import { of } from 'rxjs';
-import { ListItemComponent } from 'src/app/shared/components/list-item/list-item.component';
+import { ListItemComponent } from './components/list-item/list-item.component';
 import { FakeListItemComponent } from '@testing/mocks/fake-list-item.component'
 import { Task } from 'src/app/shared/types/task';
 import { TestHelper } from '@testing/helpers/test-helper';
@@ -35,6 +35,7 @@ describe('ListComponent', () => {
     });
 
     await TestBed.compileComponents();
+    fixture = TestBed.createComponent(ListComponent);
     testHelper = new TestHelper(fixture)
     tasksService = TestBed.inject(TasksService);
   });
@@ -49,7 +50,6 @@ describe('ListComponent', () => {
       {title: 'Item 6', completed: true},
     ]));
 
-    fixture = TestBed.createComponent(ListComponent);
     fixture.detectChanges();
     
     const todoSection = fixture.debugElement.query(By.css('[data-testid="todo-list"]'));
@@ -75,11 +75,17 @@ describe('ListComponent', () => {
     it('deve completar uma tarefa', () => {
       const fakeTask: Task = {id: '1', title: 'Item 1', completed: false};
 
-      const fakeTasks = [fakeTask] as Task[]
+      const fakeTasks: Task[] = [fakeTask];
 
       (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
 
+      const completedTask = {...fakeTask, completed: true};
+
+      (tasksService.patch as jest.Mock).mockReturnValue(of(completedTask));
+
       fixture.detectChanges();
+
+      console.log(fixture.nativeElement.innerHTML)
 
       expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
 
@@ -88,10 +94,13 @@ describe('ListComponent', () => {
       //força um emit com a fakeTask para ser recuperado no ListComponent
       (todoItemDebugEl.componentInstance as FakeListItemComponent).complete.emit(fakeTask);
 
-      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, {completed: true});
+      expect(tasksService.patch).toHaveBeenCalledWith(completedTask.id, {completed: true});
 
+      fixture.detectChanges();
 
       expect(testHelper.queryByTestId('completed-list-item')).toBeTruthy();
+
     });
   });
 });
+
