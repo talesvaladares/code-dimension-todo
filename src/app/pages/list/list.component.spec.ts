@@ -6,10 +6,13 @@ import { FakeTasksService } from '@testing/mocks/fake-tasks.service';
 import { of } from 'rxjs';
 import { ListItemComponent } from 'src/app/shared/components/list-item/list-item.component';
 import { FakeListItemComponent } from '@testing/mocks/fake-list-item.component'
+import { Task } from 'src/app/shared/types/task';
+import { TestHelper } from '@testing/helpers/test-helper';
 
 describe('ListComponent', () => {
   let fixture: ComponentFixture<ListComponent>;
   let tasksService: TasksService;
+  let testHelper: TestHelper<ListComponent>
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
@@ -32,6 +35,7 @@ describe('ListComponent', () => {
     });
 
     await TestBed.compileComponents();
+    testHelper = new TestHelper(fixture)
     tasksService = TestBed.inject(TasksService);
   });
 
@@ -65,5 +69,29 @@ describe('ListComponent', () => {
     expect(completedItems[0].componentInstance.task()).toEqual({title: 'Item 4', completed: true});
     expect(completedItems[1].componentInstance.task()).toEqual({title: 'Item 5', completed: true});
     expect(completedItems[2].componentInstance.task()).toEqual({title: 'Item 6', completed: true});
+  });
+
+  describe('quando a tarefa está pendente', () => {
+    it('deve completar uma tarefa', () => {
+      const fakeTask: Task = {id: '1', title: 'Item 1', completed: false};
+
+      const fakeTasks = [fakeTask] as Task[]
+
+      (tasksService.getAll as jest.Mock).mockReturnValue(of(fakeTasks));
+
+      fixture.detectChanges();
+
+      expect(testHelper.queryByTestId('completed-list-item')).toBeNull();
+
+      const todoItemDebugEl =  testHelper.queryByTestId('todo-list-item');
+
+      //força um emit com a fakeTask para ser recuperado no ListComponent
+      (todoItemDebugEl.componentInstance as FakeListItemComponent).complete.emit(fakeTask);
+
+      expect(tasksService.patch).toHaveBeenCalledWith(fakeTask.id, {completed: true});
+
+
+      expect(testHelper.queryByTestId('completed-list-item')).toBeTruthy();
+    });
   });
 });

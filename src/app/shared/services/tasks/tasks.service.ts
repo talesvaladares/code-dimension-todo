@@ -13,4 +13,8 @@ export class TasksService {
     return this.httpCliente.get<Task[]>('/api/tasks');
   }
 
+  public patch(id: string, payload: Partial<Task>): Observable<Task> {
+    return this.httpCliente.patch<Task>(`/api/tasks/${id}`, payload);
+  }
+
 }
